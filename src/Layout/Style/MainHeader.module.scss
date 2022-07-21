@@ -1,0 +1,33 @@
+.container {
+	display: flex;
+	align-items: center;
+	padding: 16px;
+	background-color: yellow;
+}
+
+.store_name {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	height: 60px;
+	.tshirt_icon {
+		font-size: 22px;
+	}
+}
+
+.actions_container {
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+	height: 60px;
+}
+.cart_icon {
+	position: relative;
+	.cart_icon {
+		font-size: 28px;
+	}
+	.cart_item_count {
+		position: absolute;
+		top: -8px;
+	}
+}

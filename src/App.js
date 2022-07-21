@@ -1,5 +1,12 @@
+import React from 'react';
+import MainHeader from './Layout/MainHeader';
+
 function App() {
-	return <div>Tee rex store</div>;
+	return (
+		<React.Fragment>
+			<MainHeader />
+		</React.Fragment>
+	);
 }
 
 export default App;
