@@ -1,4 +1,4 @@
-.container-wrapper {
+/* .container-wrapper {
 	padding: 16px;
 	background-color: yellow;
 }
@@ -28,4 +28,13 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+} */
+
+.container {
+	display: grid;
+	/* grid-template-columns: repeat(12, 1fr);
+	 */
+	/* grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); */
+	grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+	/* grid-template-rows: 1fr auto; */
 }

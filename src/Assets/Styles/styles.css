@@ -1,0 +1,20 @@
+.grid-container {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+}
+.grid-container > .one {
+	background-image: url('../Img/landing-page-bg-modal1.jpg');
+	background-size: 120%;
+	background-position: center;
+	background-repeat: no-repeat;
+	height: 100vh;
+}
+.grid-container > .two {
+}
+.grid-container > .three {
+	background-image: url('../Img/landing-page-bg-modal2.jpg');
+	background-position: center;
+	background-size: 120%;
+	background-repeat: no-repeat;
+	height: 100vh;
+}
