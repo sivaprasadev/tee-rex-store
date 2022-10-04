@@ -1,0 +1,31 @@
+.container-wrapper {
+	padding: 16px;
+	background-color: yellow;
+}
+
+.container {
+	display: grid;
+	grid-template-columns: 2fr 1fr;
+	grid-template-rows: auto;
+}
+
+.products--and-cart {
+	display: flex;
+	justify-content: space-evenly;
+}
+
+.cart-button-container {
+	width: 100px;
+	border-radius: 5px;
+	background-color: yellow;
+	color: black;
+	height: min-content;
+	padding: 2px;
+	border: 2px dashed #000000;
+}
+
+.cart-button {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
