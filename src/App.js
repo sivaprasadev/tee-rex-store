@@ -1,34 +1,21 @@
 import React from 'react';
-import MainHeader from './Layout/MainHeader';
-import Grid from './Layout/Grid/Grid';
-import Sale from './Assets/Img/landing-page-bg-modal3.jpg';
-import './Assets/Styles/styles.css';
+import { Route, Routes } from 'react-router-dom';
+
+import Landing from './Components/Landing';
+import Products from './Pages/Products';
 
 function App() {
 	return (
 		<React.Fragment>
-			<header>{/* <MainHeader /> */}</header>
+			<header></header>
 			<main>
-				<div className='grid-container'>
-					<div className='one'></div>
-					<div className='two'>
-						<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
-							<div>
-								<img src={Sale} style={{ height: 500 }} />
-							</div>
-							<div>
-								<button>Shop Now</button>
-							</div>
-						</div>
-					</div>
-					<div className='three'></div>
-					<div>{/* <button>Shop Now</button> */}</div>
-				</div>
+				<Routes>
+					<Route path='/' element={<Landing />} />
+					<Route path='products' element={<Products />} />
+				</Routes>
 			</main>
 
 			<footer></footer>
-
-			{/* <Grid /> */}
 		</React.Fragment>
 	);
 }
