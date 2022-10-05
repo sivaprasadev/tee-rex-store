@@ -49,5 +49,9 @@
 
 .header-sub > marquee {
 	color: #ffffff;
-    font-size: 18px;
+	font-size: 18px;
+}
+.marquee-offers {
+    display: flex;
+    gap: 12px;
 }

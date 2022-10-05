@@ -1,0 +1,14 @@
+.card-container-shadow-0 {
+	width: auto;
+	height: auto;
+	padding: 1rem;
+	margin: 0.5rem;
+}
+
+.card-container-shadow-1 {
+	width: auto;
+	height: auto;
+	box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+	padding: 1rem;
+	margin: 0.5rem;
+}

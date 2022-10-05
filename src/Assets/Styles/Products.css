@@ -1,0 +1,5 @@
+.products-body-container {
+	display: grid;
+	grid-template-columns: 0.5fr 2fr;
+	gap: 12px;
+}

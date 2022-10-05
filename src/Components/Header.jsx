@@ -22,7 +22,13 @@ const Header = () => {
 
 			<div className='header-sub'>
 				<marquee>
-					Get flat <span style={{ color: '#FFE74C' }}>10%</span> off on your first order
+					<div className='marquee-offers'>
+						<span>Buy 1 Get 1 Free</span>
+						<span>|</span>
+						<span>Buy 2 Get 2 Free</span>
+						<span>|</span>
+						<span>Buy 3 Get 3 Free</span>
+					</div>
 				</marquee>
 			</div>
 		</>

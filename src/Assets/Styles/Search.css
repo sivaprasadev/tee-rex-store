@@ -1,0 +1,20 @@
+.search--box {
+	padding: 12px 20px 12px 40px;
+	box-sizing: border-box;
+	border: 2px solid #38618c;
+	border-radius: 4px;
+	font-size: 16px;
+	background-color: #ffffff;
+	background-image: url('../Img/searchIcon.png');
+	background-position: 10px 10px;
+	background-repeat: no-repeat;
+	outline: none;
+	width: 100%;
+}
+
+.search--button-container {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	margin: 1rem 0.5rem;
+}
