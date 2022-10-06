@@ -3,3 +3,22 @@
 	grid-template-columns: 0.5fr 2fr;
 	gap: 12px;
 }
+.filter-items {
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: repeat(auto, 1fr);
+}
+
+.filter-items-value {
+	display: flex;
+	gap: 10px;
+}
+
+.product-lists {
+	display: flex;
+	justify-content: center;
+	gap: 12px;
+	flex-wrap: wrap;
+	max-height: 500px;
+	overflow-y: auto;
+}
