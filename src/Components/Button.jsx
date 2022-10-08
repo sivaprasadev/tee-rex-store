@@ -1,10 +1,12 @@
 import React from 'react';
 import '../Assets/Styles/Button.css';
 
-const Button = ({ children }) => {
+const Button = ({ children, styles }) => {
 	return (
 		<div>
-			<button className='action-button'>{children}</button>
+			<button className='action-button' style={{ ...styles }}>
+				{children}
+			</button>
 		</div>
 	);
 };

@@ -27,14 +27,15 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	border: 1.5px solid #35a7ff;
+	border: 1.5px solid #38618C;
 	border-radius: 10px;
 	padding: 5px;
+	cursor: pointer;
 }
 .header-item-count {
 	text-align: center;
 	border-radius: 50%;
-	background-color: #35a7ff;
+	background-color: #38618C;
 	color: #ffffff;
 	padding: 2px;
 	width: 25px;
@@ -52,6 +53,6 @@
 	font-size: 18px;
 }
 .marquee-offers {
-    display: flex;
-    gap: 12px;
+	display: flex;
+	gap: 12px;
 }

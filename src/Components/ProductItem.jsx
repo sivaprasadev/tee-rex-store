@@ -1,19 +1,24 @@
 import React from 'react';
-import Tshirt from '../Assets/Img/polo-tshirts.png';
 import Button from './Button';
 import '../Assets/Styles/ProductItem.css';
 
-const ProductItem = () => {
+const ProductItem = ({ image, name = '', price, curr, id }) => {
 	return (
-		<div className='product-item-container'>
+		<div className='product-item-container' key={id}>
 			<div className='product-item-img'>
-				<img src={Tshirt} alt='t-shirt' />
+				<img src={image} alt={`${name}t-shirt`} />
 			</div>
-			<div className='product-item-price'>
-				<span>$100</span>
-			</div>
-			<div className='product-item-btn'>
-				<Button>Add to cart</Button>
+			<div className='product-item-details'>
+				<div className='prod-name'>
+					<span>{name}</span>
+				</div>
+
+				<div className='prod-price'>
+					<span>{`${curr}  ${price}`}</span>
+				</div>
+				<div className='product-item-btn'>
+					<Button styles={{ width: '100%' }}>Add to cart</Button>
+				</div>
 			</div>
 		</div>
 	);
