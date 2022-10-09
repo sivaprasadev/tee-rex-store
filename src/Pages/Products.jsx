@@ -2,35 +2,33 @@ import React, { useState, useEffect } from 'react';
 import Header from '../Components/Header';
 import Card from '../Components/Card';
 import Search from '../Components/Search';
-import Button from '../Components/Button';
 import ProductItem from '../Components/ProductItem';
-import { filterAttributes } from '../Utils/utils';
+import { filterAttributes, search } from '../Utils/utils';
 import { fetchData } from '../Utils/api';
 import '../Assets/Styles/Products.css';
 
 const Products = () => {
 	const [catalogue, setCatalogue] = useState([]);
-	const [httpErr, setHttpErr] = useState('');
-	const [isLoading, setIsLoading] = useState(false);
+	const [updatedCat, setUpdatedCat] = useState([]);
+	const [userSearch, setUserSearch] = useState('');
 
 	useEffect(() => {
-		setIsLoading(true);
 		fetchData().then((data) => {
 			if (data && Array.isArray(data)) {
 				setCatalogue(data);
-				setIsLoading(false);
-			} else {
-				setHttpErr(data);
-				setIsLoading(false);
 			}
 		});
 	}, []);
 
+	const handleSearch = (e) => {
+		setUserSearch(e.target.value);
+		let f = search(e.target.value, catalogue);
+		setUpdatedCat(f);
+	};
+
 	let content = '';
 
-	if (isLoading) {
-		content = 'Loading';
-	} else if (!isLoading && catalogue.length > 0) {
+	if (!userSearch) {
 		content = (
 			<div className='product-lists'>
 				{catalogue.map((cat) => (
@@ -38,8 +36,16 @@ const Products = () => {
 				))}
 			</div>
 		);
-	} else if (!isLoading && httpErr) {
-		content = httpErr;
+	} else if (userSearch && updatedCat.length > 0) {
+		content = (
+			<div className='product-lists'>
+				{updatedCat.map((cat) => (
+					<ProductItem id={cat.id} name={cat.name} price={cat.price} image={cat.imageURL} curr={cat.currency} />
+				))}
+			</div>
+		);
+	} else if (updatedCat.length === 0) {
+		content = <div>"search not found"</div>;
 	}
 
 	return (
@@ -47,8 +53,7 @@ const Products = () => {
 			<Header />
 			<section>
 				<div className='search--button-container'>
-					<Search />
-					<Button>Search</Button>
+					<Search onChange={handleSearch} value={userSearch} />
 				</div>
 			</section>
 			<section className='products-body-container'>
