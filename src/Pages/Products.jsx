@@ -5,6 +5,7 @@ import Search from '../Components/Search';
 import ProductItem from '../Components/ProductItem';
 import { filterAttributes, search } from '../Utils/utils';
 import { fetchData } from '../Utils/api';
+import Button from '../Components/Button';
 import '../Assets/Styles/Products.css';
 
 const Products = () => {
@@ -81,6 +82,11 @@ const Products = () => {
 						{filterAttributes.type.values.map((item) => (
 							<FilterItem value={item} name={item} />
 						))}
+					</div>
+
+					<div className='action-btns'>
+						<Button>Apply</Button>
+						<Button>Clear</Button>
 					</div>
 				</Card>
 				<div>
