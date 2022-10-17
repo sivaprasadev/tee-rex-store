@@ -33,4 +33,16 @@ function filterArray(targetArray, filters) {
 	return result;
 }
 
-console.log('filterArray:', filterArray(catelogue, filterData));
+// console.log('filterArray:', filterArray(catelogue, filterData));
+
+// console.log(keys);
+
+const sampleData = {
+	type: ['Polo', 'Hoodie'],
+	color: ['Red', 'Blue'],
+	gender: ['Men'],
+	price: ['250']
+};
+
+let keys = Object.keys(sampleData);
+console.log(keys.map((i) => ({ [i]: [] })));
