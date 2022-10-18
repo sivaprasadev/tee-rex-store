@@ -26,6 +26,15 @@ export function search(str, arr) {
 	}
 }
 
+export const btnStatus = (filterData) => {
+	let keys = Object.keys(filterData);
+	let isBtnDisabled;
+
+	keys.forEach((f) => (isBtnDisabled = filterData[f].some((item) => item === true)));
+
+	return isBtnDisabled;
+};
+
 export const filterAttributes = {
 	colour: {
 		values: ['Red', 'Blue', 'Green']

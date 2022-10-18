@@ -3,7 +3,7 @@ import Header from '../Components/Header';
 import Card from '../Components/Card';
 import Search from '../Components/Search';
 import ProductItem from '../Components/ProductItem';
-import { filterAttributes, search } from '../Utils/utils';
+import { filterAttributes, search, btnStatus } from '../Utils/utils';
 import { fetchData } from '../Utils/api';
 import Button from '../Components/Button';
 import '../Assets/Styles/Products.css';
@@ -23,7 +23,12 @@ const Products = () => {
 		gender: [],
 		price: []
 	});
-	const [checkBox, setCheckBox] = useState(false);
+	const [filterCheckBox, setFilterCheckBox] = useState({
+		color: new Array(3).fill(false),
+		gender: new Array(2).fill(false),
+		price: new Array(3).fill(false),
+		type: new Array(3).fill(false)
+	});
 
 	useEffect(() => {
 		fetchData().then((data) => {
@@ -43,13 +48,33 @@ const Products = () => {
 		console.log('You clicked on Apply:', filterAttr);
 	};
 
-	const handleClear = () => {};
+	const handleClear = () => {
+		setFilterCheckBox({
+			color: new Array(3).fill(false),
+			gender: new Array(2).fill(false),
+			price: new Array(3).fill(false),
+			type: new Array(3).fill(false)
+		});
+		setFilterAttr({
+			type: [],
+			color: [],
+			gender: [],
+			price: []
+		});
+	};
 
-	const handleCheckBox = (e) => {
-		let filterType = e.target.getAttribute('data-filterBy');
-		let { name, value } = e.target;
+	const handleCheckBox = (e, position) => {
+		let filterType = e.target.getAttribute('data-filterby');
+		let { value } = e.target;
 
-		setCheckBox((prev) => !prev);
+		let output = filterCheckBox[filterType].map((item, index) => (index === position ? !item : item));
+
+		setFilterCheckBox((prevState) => {
+			return {
+				...prevState,
+				[filterType]: output
+			};
+		});
 
 		if (filterAttr[filterType]) {
 			if (filterAttr[filterType].includes(value)) {
@@ -68,8 +93,7 @@ const Products = () => {
 	};
 
 	console.log('filterAttr:', filterAttr);
-
-	// let isBool =
+	console.log('filterCheckBox:', filterCheckBox);
 
 	let content = '';
 
@@ -103,21 +127,28 @@ const Products = () => {
 				<Card>
 					<div className='filter-items'>
 						<h3>Colour</h3>
-						{filterAttributes.colour.values.map((color) => (
+						{filterAttributes.colour.values.map((color, index, arr) => (
 							<FilterItem
 								content={color}
-								value={color}
-								name={color}
+								value={arr[index]}
+								name={`${color}-${index}`}
 								filterBy='color'
-								onChange={handleCheckBox}
-								checkBox={checkBox}
+								onChange={(e) => handleCheckBox(e, index)}
+								checkBox={filterCheckBox.color[index]}
 							/>
 						))}
 					</div>
 					<div className='filter-items'>
 						<h3>Gender</h3>
-						{filterAttributes.gender.values.map((gen) => (
-							<FilterItem content={gen} value={gen} name={gen} onChange={handleCheckBox} filterBy='gender' />
+						{filterAttributes.gender.values.map((gen, index) => (
+							<FilterItem
+								content={gen}
+								value={gen}
+								name={gen}
+								onChange={(e) => handleCheckBox(e, index)}
+								checkBox={filterCheckBox.gender[index]}
+								filterBy='gender'
+							/>
 						))}
 					</div>
 					<div className='filter-items'>
@@ -128,20 +159,32 @@ const Products = () => {
 								value={amt}
 								name={amt}
 								filterBy='price'
-								onChange={handleCheckBox}
+								onChange={(e) => handleCheckBox(e, index)}
+								checkBox={filterCheckBox.price[index]}
 							/>
 						))}
 					</div>
 					<div className='filter-items'>
 						<h3>Type</h3>
-						{filterAttributes.type.values.map((item) => (
-							<FilterItem content={item} value={item} name={item} onChange={handleCheckBox} filterBy='type' />
+						{filterAttributes.type.values.map((item, index) => (
+							<FilterItem
+								content={item}
+								value={item}
+								name={item}
+								onChange={(e) => handleCheckBox(e, index)}
+								checkBox={filterCheckBox.type[index]}
+								filterBy='type'
+							/>
 						))}
 					</div>
 
 					<div className='action-btns'>
-						<Button onClick={handleApply}>Apply</Button>
-						<Button onClick={handleClear}>Clear</Button>
+						<Button onClick={handleApply} disabled={!btnStatus(filterCheckBox)}>
+							Apply
+						</Button>
+						<Button onClick={handleClear} disabled={!btnStatus(filterCheckBox)}>
+							Clear
+						</Button>
 					</div>
 				</Card>
 				<div>{/* <Card>{content}</Card> */}</div>
@@ -160,7 +203,7 @@ const FilterItem = ({ content, name, value, onChange, checkBox, filterBy }) => {
 				onChange={onChange}
 				name={name}
 				value={value}
-				data-filterBy={filterBy}
+				data-filterby={filterBy}
 				checked={checkBox}
 			/>
 			<div>{content}</div>

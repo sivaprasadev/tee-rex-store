@@ -10,3 +10,7 @@
 	cursor: pointer;
 	border-radius: 4px;
 }
+
+.action-button:disabled {
+	background-color: #a4aeb8;
+}

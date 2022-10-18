@@ -44,5 +44,23 @@ const sampleData = {
 	price: ['250']
 };
 
-let keys = Object.keys(sampleData);
-console.log(keys.map((i) => ({ [i]: [] })));
+const filterArr = {
+	color: [false, false, false],
+	gender: [false, false],
+	price: [false, false, false],
+	type: [false, false, false]
+};
+
+function a(arr) {
+	let result = arr.some((i) => true);
+	return result;
+}
+
+// console.log(a([false, false, false]));
+
+console.log(
+	filterArr.color.some((i) => i === true) ||
+		filterArr.gender.some((i) => i === true) ||
+		filterArr.price.some((i) => i === true) ||
+		filterArr.type.some((i) => i === true)
+);
