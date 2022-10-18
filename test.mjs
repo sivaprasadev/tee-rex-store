@@ -36,31 +36,3 @@ function filterArray(targetArray, filters) {
 // console.log('filterArray:', filterArray(catelogue, filterData));
 
 // console.log(keys);
-
-const sampleData = {
-	type: ['Polo', 'Hoodie'],
-	color: ['Red', 'Blue'],
-	gender: ['Men'],
-	price: ['250']
-};
-
-const filterArr = {
-	color: [false, false, false],
-	gender: [false, false],
-	price: [false, false, false],
-	type: [false, false, false]
-};
-
-function a(arr) {
-	let result = arr.some((i) => true);
-	return result;
-}
-
-// console.log(a([false, false, false]));
-
-console.log(
-	filterArr.color.some((i) => i === true) ||
-		filterArr.gender.some((i) => i === true) ||
-		filterArr.price.some((i) => i === true) ||
-		filterArr.type.some((i) => i === true)
-);

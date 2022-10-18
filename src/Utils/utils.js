@@ -26,13 +26,20 @@ export function search(str, arr) {
 	}
 }
 
-export const btnStatus = (filterData) => {
-	let keys = Object.keys(filterData);
-	let isBtnDisabled;
+export const btnStatus = (arr) => {
+	let keys = Object.keys(arr);
+	let result;
 
-	keys.forEach((f) => (isBtnDisabled = filterData[f].some((item) => item === true)));
+	for (let i = 0; i < keys.length; i++) {
+		if (arr[keys[i]].some((i) => i)) {
+			result = true;
+			return result;
+		} else {
+			result = false;
+		}
+	}
 
-	return isBtnDisabled;
+	return false;
 };
 
 export const filterAttributes = {

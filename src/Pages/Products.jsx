@@ -30,6 +30,8 @@ const Products = () => {
 		type: new Array(3).fill(false)
 	});
 
+	let isBtnDisabled = btnStatus(filterCheckBox);
+
 	useEffect(() => {
 		fetchData().then((data) => {
 			if (data && Array.isArray(data)) {
@@ -179,10 +181,10 @@ const Products = () => {
 					</div>
 
 					<div className='action-btns'>
-						<Button onClick={handleApply} disabled={!btnStatus(filterCheckBox)}>
+						<Button onClick={handleApply} disabled={!isBtnDisabled}>
 							Apply
 						</Button>
-						<Button onClick={handleClear} disabled={!btnStatus(filterCheckBox)}>
+						<Button onClick={handleClear} disabled={!isBtnDisabled}>
 							Clear
 						</Button>
 					</div>
