@@ -16,7 +16,12 @@ const Products = () => {
 	// state for user search
 	const [userSearch, setUserSearch] = useState('');
 
-	// state for filter
+	/**
+	 * state for filter
+	 * ----------------
+	 * the state filterAttr stores user selected filter attributes.
+	 * the state filterCheckBox manage the checked state for each checkboxes.To do so, it is easy to handle clearing at once.
+	 */
 	const [filterAttr, setFilterAttr] = useState({
 		type: [],
 		color: [],
@@ -30,6 +35,10 @@ const Products = () => {
 		type: new Array(3).fill(false)
 	});
 
+	/**
+	 * The btnStatus method travels through each filter property array and return either true or false by checking,
+	 * atleast one element in the array is true.
+	 */
 	let isBtnDisabled = btnStatus(filterCheckBox);
 
 	useEffect(() => {
@@ -69,12 +78,13 @@ const Products = () => {
 		let filterType = e.target.getAttribute('data-filterby');
 		let { value } = e.target;
 
-		let output = filterCheckBox[filterType].map((item, index) => (index === position ? !item : item));
+		let updatedCheckBox = filterCheckBox[filterType].map((item, index) => (index === position ? !item : item));
 
+		// update state when checkbox's status changed.
 		setFilterCheckBox((prevState) => {
 			return {
 				...prevState,
-				[filterType]: output
+				[filterType]: updatedCheckBox
 			};
 		});
 
@@ -95,7 +105,6 @@ const Products = () => {
 	};
 
 	console.log('filterAttr:', filterAttr);
-	console.log('filterCheckBox:', filterCheckBox);
 
 	let content = '';
 
@@ -129,11 +138,9 @@ const Products = () => {
 				<Card>
 					<div className='filter-items'>
 						<h3>Colour</h3>
-						{filterAttributes.colour.values.map((color, index, arr) => (
+						{filterAttributes.colour.values.map((color, index) => (
 							<FilterItem
 								content={color}
-								value={arr[index]}
-								name={`${color}-${index}`}
 								filterBy='color'
 								onChange={(e) => handleCheckBox(e, index)}
 								checkBox={filterCheckBox.color[index]}
@@ -145,8 +152,6 @@ const Products = () => {
 						{filterAttributes.gender.values.map((gen, index) => (
 							<FilterItem
 								content={gen}
-								value={gen}
-								name={gen}
 								onChange={(e) => handleCheckBox(e, index)}
 								checkBox={filterCheckBox.gender[index]}
 								filterBy='gender'
@@ -158,8 +163,7 @@ const Products = () => {
 						{filterAttributes.price.data.prices.map((amt, index) => (
 							<FilterItem
 								content={filterAttributes.price.data.content[index]}
-								value={amt}
-								name={amt}
+								selectedPrice={amt}
 								filterBy='price'
 								onChange={(e) => handleCheckBox(e, index)}
 								checkBox={filterCheckBox.price[index]}
@@ -171,8 +175,6 @@ const Products = () => {
 						{filterAttributes.type.values.map((item, index) => (
 							<FilterItem
 								content={item}
-								value={item}
-								name={item}
 								onChange={(e) => handleCheckBox(e, index)}
 								checkBox={filterCheckBox.type[index]}
 								filterBy='type'
@@ -197,14 +199,16 @@ const Products = () => {
 
 export default Products;
 
-const FilterItem = ({ content, name, value, onChange, checkBox, filterBy }) => {
+const FilterItem = ({ content, selectedPrice, onChange, checkBox, filterBy }) => {
+	// selectedPrice is a prop only used for price checkbox to get the single price value.
+	// eg: if user selected 0-250 price range, selectedPrice will have only the value 250.
 	return (
 		<div className='filter-items-value'>
 			<input
 				type='checkbox'
 				onChange={onChange}
-				name={name}
-				value={value}
+				name={selectedPrice ? selectedPrice : content}
+				value={selectedPrice ? selectedPrice : content}
 				data-filterby={filterBy}
 				checked={checkBox}
 			/>
