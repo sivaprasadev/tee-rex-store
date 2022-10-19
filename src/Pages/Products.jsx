@@ -3,7 +3,7 @@ import Header from '../Components/Header';
 import Card from '../Components/Card';
 import Search from '../Components/Search';
 import ProductItem from '../Components/ProductItem';
-import { filterAttributes, search, btnStatus } from '../Utils/utils';
+import { filterAttributes, search, btnStatus, filterArray } from '../Utils/utils';
 import { fetchData } from '../Utils/api';
 import Button from '../Components/Button';
 import '../Assets/Styles/Products.css';
@@ -12,6 +12,7 @@ const Products = () => {
 	// state for maintaining catelogues
 	const [catalogue, setCatalogue] = useState([]);
 	const [updatedCat, setUpdatedCat] = useState([]);
+	const [filteredCat, setFilteredCat] = useState({ filteredCatelogue: [], error: '' });
 
 	// state for user search
 	const [userSearch, setUserSearch] = useState('');
@@ -57,7 +58,16 @@ const Products = () => {
 
 	const handleApply = () => {
 		console.log('You clicked on Apply:', filterAttr);
+		let filteredArray = filterArray(catalogue, filterAttr);
+		console.log('filteredArray:', filteredArray);
+		if (filteredArray.length === 0) {
+			setFilteredCat((prevState) => ({ ...prevState, error: 'No matching found!' }));
+			return;
+		}
+		setFilteredCat({ filteredCatelogue: filteredArray });
 	};
+
+	console.log('filteredCat:', filteredCat);
 
 	const handleClear = () => {
 		setFilterCheckBox({
@@ -72,6 +82,7 @@ const Products = () => {
 			gender: [],
 			price: []
 		});
+		setFilteredCat({ filteredCatelogue: [], error: '' });
 	};
 
 	const handleCheckBox = (e, position) => {
@@ -108,15 +119,7 @@ const Products = () => {
 
 	let content = '';
 
-	if (!userSearch) {
-		content = (
-			<div className='product-lists'>
-				{catalogue.map((cat) => (
-					<ProductItem id={cat.id} name={cat.name} price={cat.price} image={cat.imageURL} curr={cat.currency} />
-				))}
-			</div>
-		);
-	} else if (userSearch && updatedCat.length > 0) {
+	if (userSearch && updatedCat.length > 0) {
 		content = (
 			<div className='product-lists'>
 				{updatedCat.map((cat) => (
@@ -124,15 +127,40 @@ const Products = () => {
 				))}
 			</div>
 		);
-	} else if (updatedCat.length === 0) {
-		content = <div>"search not found"</div>;
+		// content = (
+		// 	<div className='product-lists'>
+		// 		{catalogue.map((cat) => (
+		// 			<ProductItem id={cat.id} name={cat.name} price={cat.price} image={cat.imageURL} curr={cat.currency} />
+		// 		))}
+		// 	</div>
+		// );
+	} else if ((userSearch && updatedCat.length === 0) || filteredCat.error) {
+		content = <div>{filteredCat.error ? filteredCat.error : 'search not found'}</div>;
+	} else if (filteredCat.filteredCatelogue && filteredCat.filteredCatelogue.length > 0) {
+		content = (
+			<div className='product-lists'>
+				{filteredCat.filteredCatelogue.map((cat) => (
+					<ProductItem id={cat.id} name={cat.name} price={cat.price} image={cat.imageURL} curr={cat.currency} />
+				))}
+			</div>
+		);
+	} else {
+		content = (
+			<div className='product-lists'>
+				{catalogue.map((cat) => (
+					<ProductItem id={cat.id} name={cat.name} price={cat.price} image={cat.imageURL} curr={cat.currency} />
+				))}
+			</div>
+		);
 	}
 
 	return (
 		<div>
-			{/* <Header /> */}
+			<Header />
 			<section>
-				<div className='search--button-container'>{/* <Search onChange={handleSearch} value={userSearch} /> */}</div>
+				<div className='search--button-container'>
+					<Search onChange={handleSearch} value={userSearch} />
+				</div>
 			</section>
 			<section className='products-body-container'>
 				<Card>
@@ -191,7 +219,9 @@ const Products = () => {
 						</Button>
 					</div>
 				</Card>
-				<div>{/* <Card>{content}</Card> */}</div>
+				<div>
+					<Card>{content}</Card>
+				</div>
 			</section>
 		</div>
 	);
