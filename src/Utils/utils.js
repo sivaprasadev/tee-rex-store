@@ -76,7 +76,11 @@ export const filterAttributes = {
 		values: ['Men', 'Women']
 	},
 	price: {
-		data: { prices: [250, 251, 1000], content: { 0: '0-250', 1: '251-500', 2: '500-1000' } }
+		data: {
+			prices: [0, 250, 251, 1000],
+			content: { 0: 'Select', 1: '0-250', 2: '251-500', 3: '501-1000' }
+			// content: { 0: '0-250', 1: '251-500', 2: '501-1000' }
+		}
 	},
 	type: {
 		values: ['Polo', 'Hoodie', 'Basic']

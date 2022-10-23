@@ -32,9 +32,13 @@ const Products = () => {
 	const [filterCheckBox, setFilterCheckBox] = useState({
 		color: new Array(3).fill(false),
 		gender: new Array(2).fill(false),
-		price: new Array(3).fill(false),
+		// price: new Array(3).fill(false),
 		type: new Array(3).fill(false)
 	});
+
+	const [selectedPriceRange, setSelectedPriceRange] = useState();
+
+	const [triggerTimeout, setTriggerTimeout] = useState(false);
 
 	/**
 	 * The btnStatus method travels through each filter property array and return either true or false by checking,
@@ -50,6 +54,12 @@ const Products = () => {
 		});
 	}, []);
 
+	useEffect(() => {
+		setTimeout(() => {
+			setTriggerTimeout(true);
+		}, 1000);
+	}, [triggerTimeout]);
+
 	const handleSearch = (e) => {
 		setUserSearch(e.target.value);
 		let f = search(e.target.value, catalogue);
@@ -58,12 +68,15 @@ const Products = () => {
 
 	const handleApply = () => {
 		console.log('You clicked on Apply:', filterAttr);
-		let filteredArray = filterArray(catalogue, filterAttr);
+		let appendPriceWithState = { ...filterAttr, price: [selectedPriceRange] };
+		console.log('updatedState:', appendPriceWithState);
+		let filteredArray = filterArray(catalogue, appendPriceWithState);
 		console.log('filteredArray:', filteredArray);
 		if (filteredArray.length === 0) {
 			setFilteredCat((prevState) => ({ ...prevState, error: 'No matching found!' }));
 			return;
 		}
+		setTriggerTimeout(false);
 		setFilteredCat({ filteredCatelogue: filteredArray });
 	};
 
@@ -73,7 +86,7 @@ const Products = () => {
 		setFilterCheckBox({
 			color: new Array(3).fill(false),
 			gender: new Array(2).fill(false),
-			price: new Array(3).fill(false),
+			// price: new Array(3).fill(false),
 			type: new Array(3).fill(false)
 		});
 		setFilterAttr({
@@ -83,6 +96,8 @@ const Products = () => {
 			price: []
 		});
 		setFilteredCat({ filteredCatelogue: [], error: '' });
+		setTriggerTimeout(false);
+		setSelectedPriceRange('');
 	};
 
 	const handleCheckBox = (e, position) => {
@@ -115,7 +130,12 @@ const Products = () => {
 		}
 	};
 
+	const handleSelectedPrice = (e) => {
+		setSelectedPriceRange(e.target.value);
+	};
+
 	console.log('filterAttr:', filterAttr);
+	console.log('selectedPriceRange:', selectedPriceRange);
 
 	let content = '';
 
@@ -123,24 +143,31 @@ const Products = () => {
 		content = (
 			<div className='product-lists'>
 				{updatedCat.map((cat) => (
-					<ProductItem id={cat.id} name={cat.name} price={cat.price} image={cat.imageURL} curr={cat.currency} />
+					<ProductItem
+						id={cat.id}
+						name={cat.name}
+						price={cat.price}
+						image={cat.imageURL}
+						curr={cat.currency}
+						gender={cat.gender}
+					/>
 				))}
 			</div>
 		);
-		// content = (
-		// 	<div className='product-lists'>
-		// 		{catalogue.map((cat) => (
-		// 			<ProductItem id={cat.id} name={cat.name} price={cat.price} image={cat.imageURL} curr={cat.currency} />
-		// 		))}
-		// 	</div>
-		// );
 	} else if ((userSearch && updatedCat.length === 0) || filteredCat.error) {
 		content = <div>{filteredCat.error ? filteredCat.error : 'search not found'}</div>;
 	} else if (filteredCat.filteredCatelogue && filteredCat.filteredCatelogue.length > 0) {
 		content = (
 			<div className='product-lists'>
 				{filteredCat.filteredCatelogue.map((cat) => (
-					<ProductItem id={cat.id} name={cat.name} price={cat.price} image={cat.imageURL} curr={cat.currency} />
+					<ProductItem
+						id={cat.id}
+						name={cat.name}
+						price={cat.price}
+						image={cat.imageURL}
+						curr={cat.currency}
+						gender={cat.gender}
+					/>
 				))}
 			</div>
 		);
@@ -148,7 +175,14 @@ const Products = () => {
 		content = (
 			<div className='product-lists'>
 				{catalogue.map((cat) => (
-					<ProductItem id={cat.id} name={cat.name} price={cat.price} image={cat.imageURL} curr={cat.currency} />
+					<ProductItem
+						id={cat.id}
+						name={cat.name}
+						price={cat.price}
+						image={cat.imageURL}
+						curr={cat.currency}
+						gender={cat.gender}
+					/>
 				))}
 			</div>
 		);
@@ -188,7 +222,14 @@ const Products = () => {
 					</div>
 					<div className='filter-items'>
 						<h3>Price</h3>
-						{filterAttributes.price.data.prices.map((amt, index) => (
+						<select name='' id='' onChange={handleSelectedPrice}>
+							{filterAttributes.price.data.prices.map((amt, index) => (
+								<option value={amt} selected={selectedPriceRange}>
+									{filterAttributes.price.data.content[index]}
+								</option>
+							))}
+						</select>
+						{/* {filterAttributes.price.data.prices.map((amt, index) => (
 							<FilterItem
 								content={filterAttributes.price.data.content[index]}
 								selectedPrice={amt}
@@ -196,7 +237,7 @@ const Products = () => {
 								onChange={(e) => handleCheckBox(e, index)}
 								checkBox={filterCheckBox.price[index]}
 							/>
-						))}
+						))} */}
 					</div>
 					<div className='filter-items'>
 						<h3>Type</h3>
@@ -211,16 +252,17 @@ const Products = () => {
 					</div>
 
 					<div className='action-btns'>
-						<Button onClick={handleApply} disabled={!isBtnDisabled}>
+						<Button onClick={handleApply} disabled={!isBtnDisabled && !selectedPriceRange}>
 							Apply
 						</Button>
-						<Button onClick={handleClear} disabled={!isBtnDisabled}>
+
+						<Button onClick={handleClear} disabled={!isBtnDisabled && !selectedPriceRange}>
 							Clear
 						</Button>
 					</div>
 				</Card>
 				<div>
-					<Card>{content}</Card>
+					<Card>{triggerTimeout ? content : 'Please wait...'}</Card>
 				</div>
 			</section>
 		</div>
