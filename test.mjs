@@ -1,10 +1,10 @@
 import { catelogue } from './catelogue.mjs';
 
 const filterData = {
-	type: ['Polo', 'Hoodie', 'Basic'],
+	type: [],
 	color: ['Red'],
-	gender: ['Men', 'Women'],
-	price: [250]
+	gender: [],
+	price: ['']
 };
 
 function filterArray(targetArray, filters) {
@@ -35,4 +35,7 @@ function filterArray(targetArray, filters) {
 
 // console.log('filterArray:', filterArray(catelogue, filterData));
 
-// console.log(keys);
+let productTypes = catelogue.map(({ type }) => type).filter((i, index, arr) => arr.indexOf(i) === index);
+let productColor = catelogue.map(({ color }) => color).filter((i, index, arr) => arr.indexOf(i) === index);
+console.log(productTypes);
+console.log(productColor);

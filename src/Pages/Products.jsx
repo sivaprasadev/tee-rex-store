@@ -32,11 +32,10 @@ const Products = () => {
 	const [filterCheckBox, setFilterCheckBox] = useState({
 		color: new Array(3).fill(false),
 		gender: new Array(2).fill(false),
-		// price: new Array(3).fill(false),
 		type: new Array(3).fill(false)
 	});
 
-	const [selectedPriceRange, setSelectedPriceRange] = useState();
+	const [selectedPriceRange, setSelectedPriceRange] = useState('');
 
 	const [triggerTimeout, setTriggerTimeout] = useState(false);
 
@@ -68,7 +67,7 @@ const Products = () => {
 
 	const handleApply = () => {
 		console.log('You clicked on Apply:', filterAttr);
-		let appendPriceWithState = { ...filterAttr, price: [selectedPriceRange] };
+		let appendPriceWithState = { ...filterAttr, price: selectedPriceRange ? [selectedPriceRange] : [] };
 		console.log('updatedState:', appendPriceWithState);
 		let filteredArray = filterArray(catalogue, appendPriceWithState);
 		console.log('filteredArray:', filteredArray);
@@ -86,7 +85,6 @@ const Products = () => {
 		setFilterCheckBox({
 			color: new Array(3).fill(false),
 			gender: new Array(2).fill(false),
-			// price: new Array(3).fill(false),
 			type: new Array(3).fill(false)
 		});
 		setFilterAttr({
@@ -222,11 +220,9 @@ const Products = () => {
 					</div>
 					<div className='filter-items'>
 						<h3>Price</h3>
-						<select name='' id='' onChange={handleSelectedPrice}>
-							{filterAttributes.price.data.prices.map((amt, index) => (
-								<option value={amt} selected={selectedPriceRange}>
-									{filterAttributes.price.data.content[index]}
-								</option>
+						<select onChange={handleSelectedPrice} value={selectedPriceRange}>
+							{filterAttributes.price.map((item) => (
+								<option value={item.value}>{item.title}</option>
 							))}
 						</select>
 						{/* {filterAttributes.price.data.prices.map((amt, index) => (
